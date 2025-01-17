@@ -1,0 +1,19 @@
+@OrleansPlayground_HostAddress = http://localhost:5032
+
+GET {{OrleansPlayground_HostAddress}}/account/abc123/deposit/10
+Accept: application/json
+
+###
+
+GET {{OrleansPlayground_HostAddress}}/account/abc123/withdraw/3
+Accept: application/json
+
+###
+
+GET {{OrleansPlayground_HostAddress}}/account/abc123/balance
+Accept: application/json
+
+###
+
+GET {{OrleansPlayground_HostAddress}}/account/abc123/recent
+Accept: application/json

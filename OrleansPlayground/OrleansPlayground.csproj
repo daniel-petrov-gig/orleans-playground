@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Reveals the serializers (aka codecs) and request objects (grains) -->
+    <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.EventSourcing" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="8.2.0" />
+    <PackageReference Include="Npgsql" Version="8.0.6" />
+  </ItemGroup>
+
+</Project>
