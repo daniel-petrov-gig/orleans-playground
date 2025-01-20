@@ -1,19 +1,20 @@
 @OrleansPlayground_HostAddress = http://localhost:5032
+@BankAccountNumber = abc
 
-GET {{OrleansPlayground_HostAddress}}/account/abc123/deposit/10
+GET {{OrleansPlayground_HostAddress}}/account/{{BankAccountNumber}}/deposit/10
 Accept: application/json
 
 ###
 
-GET {{OrleansPlayground_HostAddress}}/account/abc123/withdraw/3
+GET {{OrleansPlayground_HostAddress}}/account/{{BankAccountNumber}}/withdraw/3
 Accept: application/json
 
 ###
 
-GET {{OrleansPlayground_HostAddress}}/account/abc123/balance
+GET {{OrleansPlayground_HostAddress}}/account/{{BankAccountNumber}}/balance
 Accept: application/json
 
 ###
 
-GET {{OrleansPlayground_HostAddress}}/account/abc123/recent
+GET {{OrleansPlayground_HostAddress}}/account/{{BankAccountNumber}}/recent
 Accept: application/json

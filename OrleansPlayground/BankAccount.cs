@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using Newtonsoft.Json;
+using Orleans.Concurrency;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
@@ -58,13 +59,22 @@ public sealed class BankAccountState
     }
 }
 
-public sealed record Deposit(decimal Amount) : Transaction;
-
-public sealed record Withdraw(decimal Amount) : Transaction;
-
-public abstract record Transaction
+public sealed record Deposit(decimal Amount) : Transaction(Amount)
 {
-    public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
+    public override string Name => "deposit";
+}
+
+public sealed record Withdraw(decimal Amount) : Transaction(Amount)
+{
+    public override string Name => "withdrawal";
+}
+
+public abstract record Transaction(decimal Amount)
+{
+    [JsonIgnore]
+    public abstract string Name { get; }
+
+    public DateTimeOffset Timestamp { get; init; } = DateTimeOffset.UtcNow;
 }
 
 [StorageProvider(ProviderName = "accounts"), LogConsistencyProvider(ProviderName = "LogStorage")]
@@ -109,24 +119,11 @@ public sealed class BankAccountGrain : JournaledGrain<BankAccountState, Transact
 
         var transactions = await RetrieveConfirmedEvents(from, Version);
 
-        var mapped = transactions.Select(x =>
+        var mapped = transactions.Select(static transaction => new RecentTransaction
         {
-            return x switch
-            {
-                Deposit deposit => new RecentTransaction
-                {
-                    Amount = deposit.Amount,
-                    Method = "deposit",
-                    Timestamp = deposit.Timestamp,
-                },
-                Withdraw withdraw => new RecentTransaction
-                {
-                    Amount = withdraw.Amount,
-                    Method = "withdraw",
-                    Timestamp = withdraw.Timestamp,
-                },
-                _ => throw new NotImplementedException(),
-            };
+            Amount = transaction.Amount,
+            Method = transaction.Name,
+            Timestamp = transaction.Timestamp,
         })
 
         // if you comment this, you will get a codec not found error!
