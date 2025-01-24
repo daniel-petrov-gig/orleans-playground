@@ -84,6 +84,9 @@ public sealed class BankAccountGrain : JournaledGrain<BankAccountState, Transact
     {
         RaiseEvent(new Deposit(amount));
 
+        // if the state is not serializable, the below would throw!
+        // var tentative = TentativeState;
+
         await ConfirmEvents();
     }
 

@@ -10,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseOrleans(static silo =>
 {
     silo.UseLocalhostClustering();
+
+    // uncomment below for a nice throw on state write! State storage reads the tentative state on write, whereas the log storage doesn't!
+    // silo.AddStateStorageBasedLogConsistencyProvider("LogStorage");
     silo.AddLogStorageBasedLogConsistencyProvider("LogStorage");
 
     // what can trip you here from util-endeavour is that JSON typename handling is TURNED OFF
